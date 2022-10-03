@@ -1,0 +1,90 @@
+.game {
+  margin: 10% 0 0 10%;
+  width: 450px;
+}
+
+.table {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  border: 1.1px solid black;
+}
+
+td {
+  border: 1px solid #dddddd;
+  height: 35px;
+  width: 35px;
+}
+
+table:nth-child(n + 7) tr:nth-child(n + 3) {
+  border-bottom: 2px solid black;
+}
+
+table:nth-child(-n + 3) tr:nth-child(-n + 1) {
+  border-top: 2px solid black;
+}
+
+/* left */
+table:nth-child(1) td:nth-child(-n + 1) {
+  border-left: 2px solid black;
+}
+
+table:nth-child(4) td:nth-child(-n + 1) {
+  border-left: 2px solid black;
+}
+
+table:nth-child(7) td:nth-child(-n + 1) {
+  border-left: 2px solid black;
+}
+
+/* right */
+table:nth-child(3) td:nth-child(n + 3) {
+  border-right: 2px solid black;
+}
+table:nth-child(6) td:nth-child(n + 3) {
+  border-right: 2px solid black;
+}
+table:nth-child(9) td:nth-child(n + 3) {
+  border-right: 2px solid black;
+}
+
+.table input {
+  width: 35px;
+  height: 35px;
+  border: none;
+  text-align: center;
+}
+
+.table input:hover {
+  background-color: rgb(192, 222, 241);
+}
+
+.sudoku {
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.sudoku input {
+  width: 35px;
+  height: 35px;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.sudoku input:hover {
+  background-color: rgb(192, 222, 241);
+}
+
+.hint {
+  /* background-color: rgb(247, 201, 201);
+  color: brown; */
+  color: #f8b14c;
+}
+
+.mistake {
+  color: brown;
+}
