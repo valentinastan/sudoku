@@ -7,11 +7,11 @@ export default function gameReducer(state, action) {
     case "[GAME] RESET_SCORE":
       return { ...state, score: 0 };
     case "[GAME] AUTOCHECK_ON":
-      console.log('helelorrr TRUE')
       return { ...state, autocheck: true };
     case "[GAME] AUTOCHECK_OFF":
-      console.log('helelorrr FALSE')
       return { ...state, autocheck: false };
+    case "[GAME] RESET":
+      return { ...state, score: 0, autocheck: false, time: "", level: "" };
     default:
       return { ...state };
   }

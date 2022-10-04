@@ -82,7 +82,7 @@ table:nth-child(9) td:nth-child(n + 3) {
 .hint {
   /* background-color: rgb(247, 201, 201);
   color: brown; */
-  color: #f8b14c;
+  color: #f8b14c !important;
 }
 
 .mistake {

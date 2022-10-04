@@ -13,15 +13,12 @@ const Cell = props => {
   const [incrementedScore, setIncrementedScore] = useState(undefined);
   const [markAsMistake, setMarkAsMistake] = useState(false);
   const [store, dispatch] = useStore();
-  // let emptyCells = store?.solutionState?.emptyCells;
   let solution = store?.solutionState?.solution;
-  let hint = store?.solutionState?.hint;
+  let unfilledBoard = store?.solutionState?.unfilledBoard
+  let hint = store?.solutionState?.hint || null;
   let score = store?.gameState?.score;
   let autocheck = store?.gameState?.autocheck;
-  // console.log(props.rowIndex, props.colIndex, emptyCells);
   const { rowIndex, colIndex } = props;
-  // let incrementedScore;
-  // let points = state.points;
 
   const checkIsHint = () => {
     if (
@@ -35,23 +32,13 @@ const Cell = props => {
 
   useEffect(() => {
     if (hint) {
+      // console.log('aiciia', hint)
       checkIsHint();
     }
-  }, [hint]);
+    // console.log('aicic ma')
+    checkMistake(unfilledBoard[props.rowIndex][props.colIndex])
+  }, [hint, autocheck]);
 
-  // const getSolution = () => {
-  //   let solution = {};
-  //   emptyCells.map(cell => {
-  //     if (solution[cell.rowIndex]) {
-  //       solution[cell.rowIndex][cell.colIndex] = cell.val;
-  //     } else {
-  //       solution[cell.rowIndex] = {
-  //         [cell.colIndex]: cell.val,
-  //       };
-  //     }
-  //   });
-  //   return solution;
-  // };
 
   const onChangeInputValue = newValue => {
     console.log("newValue", newValue);
@@ -59,6 +46,14 @@ const Cell = props => {
     console.log("state", inputValue, props);
 
     // let solution = getSolution();
+    dispatch({
+      type: "[BOARD] SAVE_USER_INPUT",
+      cell: {
+        rowIndex: props.rowIndex,
+        colIndex: props.colIndex,
+        val: parseInt(newValue || 0),
+      },
+    });
 
     console.log(
       "solution, rowIndex, colIndex, sol",
@@ -69,46 +64,28 @@ const Cell = props => {
     );
 
     if (newValue === "" || undefined) {
-      console.log("aiciciicii", incrementedScore);
-      if (incrementedScore === true) {
-        console.log("decrement3", score);
-        dispatch({
-          type: "[GAME] DECREMENT_SCORE",
-        });
-      } else if (incrementedScore === false) {
-        console.log("increment4", score);
-        dispatch({
-          type: "[GAME] INCREMENT_SCORE",
-        });
-      }
+      undoScore();
     } else {
       if (solution[rowIndex][colIndex]) {
         console.log("solution", solution[rowIndex][colIndex], newValue);
         if (solution[rowIndex][colIndex].toString() === newValue.toString()) {
-          // setState({ ...state, points: state.points++ });
-
+          incrementScore(true);
           dispatch({
-            type: "[GAME] INCREMENT_SCORE",
+            type: "[BOARD] UPDATE_EMPTY_CELLS",
+            cell: {
+              rowIndex: props.rowIndex,
+              colIndex: props.colIndex,
+              val: parseInt(newValue),
+            },
           });
-          // incrementedScore = true;
-          setIncrementedScore(true);
-          console.log("increment1", score, incrementedScore);
         } else if (
           solution[rowIndex][colIndex].toString() !== newValue.toString()
         ) {
-          console.log("heei 0000", markAsMistake);
+          incrementScore(false);
           if (autocheck === true) {
             console.log("heei greseala");
             setMarkAsMistake(!markAsMistake);
           }
-          // incrementedScore = false;
-          setIncrementedScore(false);
-          dispatch({
-            type: "[GAME] DECREMENT_SCORE",
-          });
-          console.log("decrement2", score, incrementedScore);
-          // setState({ ...state, points: state.points-- });
-          // console.log("state val", inputValue);
         }
       }
     }
@@ -116,7 +93,40 @@ const Cell = props => {
     console.log("score:", score);
   };
 
-  console.log("autockec", autocheck);
+  const checkMistake = value => {
+    if (solution[rowIndex][colIndex].toString() !== value.toString()) {
+      if (autocheck === true) {
+        setMarkAsMistake(!markAsMistake);
+      }
+    }
+  };
+
+  const undoScore = () => {
+    if (incrementedScore === true) {
+      dispatch({
+        type: "[GAME] DECREMENT_SCORE",
+      });
+    } else if (incrementedScore === false) {
+      dispatch({
+        type: "[GAME] INCREMENT_SCORE",
+      });
+    }
+  };
+
+  const incrementScore = isIncrementing => {
+    if (isIncrementing) {
+      dispatch({
+        type: "[GAME] INCREMENT_SCORE",
+      });
+      setIncrementedScore(true);
+    } else {
+      dispatch({
+        type: "[GAME] DECREMENT_SCORE",
+      });
+      setIncrementedScore(false);
+    }
+  };
+
   const hintClass = isHint ? "hint" : "";
   const mistakeClass = markAsMistake && autocheck ? "mistake" : "";
 

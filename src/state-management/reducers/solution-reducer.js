@@ -2,21 +2,66 @@ import getSolution from "../../helpers/game-state";
 
 export default function solutionReducer(state, action) {
   switch (action.type) {
-    case "[BOARD] SET_NEW_BOARD":
+    case "[BOARD] RESET_BOARD":
       console.log("action", action);
       let newState = {
         emptyCells: action.startingBoard[0],
         unfilledBoard: action.startingBoard[1],
         filledBoard: action.startingBoard[2],
       };
-      let solution = getSolution(newState.filledBoard)
-      return { ...state, ...newState, solution};
+      let solution = getSolution(newState.filledBoard);
+
+      return { ...state, ...newState, solution, hint: null, lastMove: null };
     case "[BOARD] SET_HINT":
       return { ...state, hint: action.hint, emptyCells: [...action.hints] };
+    case "[BOARD] SAVE_USER_INPUT":
+      let emptyCell;
+      let unfilled = [...state.unfilledBoard];
+      unfilled[action.cell.rowIndex][action.cell.colIndex] = action.cell.val;
 
-    case "[BOARD] SET_SOLUTION_OBJECT":
-      console.log("solutiion", action.solution);
-      return { ...state, solution: { ...action.solution } };
+      if (action.cell.val === 0) {
+        let solution =
+          state.filledBoard[action.cell.rowIndex][action.cell.colIndex];
+        let alreadyExists = false;
+        state.emptyCells.map(el => {
+          if (
+            el.rowIndex === action.cell.rowIndex &&
+            el.colIndex === action.cell.colIndex &&
+            el.val === solution
+          ) {
+            alreadyExists = true;
+          }
+        });
+        if (!alreadyExists) {
+          emptyCell = {
+            rowIndex: action.cell.rowIndex,
+            colIndex: action.cell.colIndex,
+            val: solution,
+          };
+        }
+      }
+
+      return {
+        ...state,
+        unfilledBoard: [...unfilled],
+        lastMove: { ...action.cell },
+        emptyCells: emptyCell
+          ? [...state.emptyCells, emptyCell]
+          : [...state.emptyCells],
+      };
+    case "[BOARD] UPDATE_EMPTY_CELLS":
+      let cell = action.cell;
+      let res = [];
+      state.emptyCells.map(el => {
+        if (
+          el.rowIndex === cell.rowIndex &&
+          el.colIndex === cell.colIndex &&
+          el.val === cell.val
+        ) {
+        } else return res.push(el);
+      });
+
+      return { ...state, emptyCells: res };
     default:
       return { ...state };
   }
