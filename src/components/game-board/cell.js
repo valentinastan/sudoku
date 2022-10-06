@@ -14,7 +14,7 @@ const Cell = props => {
   const [markAsMistake, setMarkAsMistake] = useState(false);
   const [store, dispatch] = useStore();
   let solution = store?.solutionState?.solution;
-  let unfilledBoard = store?.solutionState?.unfilledBoard
+  let unfilledBoard = store?.solutionState?.unfilledBoard;
   let hint = store?.solutionState?.hint || null;
   let score = store?.gameState?.score;
   let autocheck = store?.gameState?.autocheck;
@@ -32,13 +32,10 @@ const Cell = props => {
 
   useEffect(() => {
     if (hint) {
-      // console.log('aiciia', hint)
       checkIsHint();
     }
-    // console.log('aicic ma')
-    checkMistake(unfilledBoard[props.rowIndex][props.colIndex])
+    checkMistake(unfilledBoard[props.rowIndex][props.colIndex]);
   }, [hint, autocheck]);
-
 
   const onChangeInputValue = newValue => {
     console.log("newValue", newValue);
@@ -67,7 +64,6 @@ const Cell = props => {
       undoScore();
     } else {
       if (solution[rowIndex][colIndex]) {
-        console.log("solution", solution[rowIndex][colIndex], newValue);
         if (solution[rowIndex][colIndex].toString() === newValue.toString()) {
           incrementScore(true);
           dispatch({
@@ -83,20 +79,17 @@ const Cell = props => {
         ) {
           incrementScore(false);
           if (autocheck === true) {
-            console.log("heei greseala");
-            setMarkAsMistake(!markAsMistake);
+            setMarkAsMistake(true);
           }
         }
       }
     }
-
-    console.log("score:", score);
   };
 
   const checkMistake = value => {
     if (solution[rowIndex][colIndex].toString() !== value.toString()) {
       if (autocheck === true) {
-        setMarkAsMistake(!markAsMistake);
+        setMarkAsMistake(true);
       }
     }
   };
