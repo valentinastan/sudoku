@@ -9,7 +9,7 @@ const Menu = props => {
   const [showScore, setShowScore] = useState(false);
   const [autoCheck, setAutoCheck] = useState(
     store.gameState.autoCheck || false
-  ); //? not updating the switch
+  );
 
   let score = store?.gameState?.score || 0;
   let solution = store?.solutionState?.emptyCells;
@@ -28,7 +28,7 @@ const Menu = props => {
     dispatch({
       type: "[GAME] RESET",
     });
-    // setState(startingBoard[1]);
+    setAutoCheck(false);
   };
 
   const showHint = () => {
@@ -46,7 +46,6 @@ const Menu = props => {
 
   const enableAutoCheck = () => {
     setAutoCheck(!autoCheck);
-    console.log("aici", !autoCheck);
     if (!autoCheck) {
       dispatch({
         type: "[GAME] AUTOCHECK_ON",
@@ -57,6 +56,8 @@ const Menu = props => {
       });
     }
   };
+
+  const undoMove = () => {};
 
   return (
     <React.Fragment>
@@ -69,6 +70,12 @@ const Menu = props => {
       >
         Hint
       </button>
+      <button
+        onClick={undoMove}
+        // disabled={solution.length === 0 ? true : false}
+      >
+        Undo
+      </button>
       {solution.length === 0 && <div>Congrats!</div>}
       <br />
       <FormGroup>
@@ -77,7 +84,6 @@ const Menu = props => {
           label="Auto-Check for Mistakes"
         />
       </FormGroup>
-      <div>{autoCheck}</div>
     </React.Fragment>
   );
 };

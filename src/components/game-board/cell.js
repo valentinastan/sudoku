@@ -8,7 +8,7 @@ const Cell = props => {
   //   incrementedScore: undefined,
   // });
 
-  const [inputValue, setInputValue] = useState(props?.value);
+  const [inputValue, setInputValue] = useState(0);
   const [isHint, setIsHint] = useState(false);
   const [incrementedScore, setIncrementedScore] = useState(undefined);
   const [markAsMistake, setMarkAsMistake] = useState(false);
@@ -16,7 +16,6 @@ const Cell = props => {
   let solution = store?.solutionState?.solution;
   let unfilledBoard = store?.solutionState?.unfilledBoard;
   let hint = store?.solutionState?.hint || null;
-  let score = store?.gameState?.score;
   let autocheck = store?.gameState?.autocheck;
   const { rowIndex, colIndex } = props;
 
@@ -31,11 +30,24 @@ const Cell = props => {
   };
 
   useEffect(() => {
+   
     if (hint) {
       checkIsHint();
     }
     checkMistake(unfilledBoard[props.rowIndex][props.colIndex]);
   }, [hint, autocheck]);
+
+  useEffect(() => {
+    setInputValue(props.value)
+    console.log(props.value, props, inputValue, hint)
+
+    // if (props.value === 0) initVal();
+  }, [props.value]);
+
+  // const initVal = () => {
+  //   console.log('aici')
+  //   setInputValue(0);
+  // };
 
   const onChangeInputValue = newValue => {
     console.log("newValue", newValue);
@@ -125,6 +137,7 @@ const Cell = props => {
 
   return (
     <React.Fragment>
+      {/* {console.log('input', inputValue)} */}
       <input
         value={inputValue !== 0 ? inputValue : ""}
         key={"cell_"}
