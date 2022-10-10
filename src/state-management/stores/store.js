@@ -1,4 +1,5 @@
 import React from "react";
+import displayReducer from "../reducers/display-reducer";
 import gameReducer from "../reducers/game-reducer";
 import solutionReducer from "../reducers/solution-reducer";
 
@@ -18,6 +19,9 @@ const initialState = {
     time: "",
     level: "",
   },
+  displayState: {
+    clickedCell: null
+  }
 };
 
 const Store = React.createContext();
@@ -26,6 +30,7 @@ const Dispatch = React.createContext();
 const combinedReducers = (state, action) => ({
   solutionState: solutionReducer(state.solutionState, action),
   gameState: gameReducer(state.gameState, action),
+  displayState: displayReducer(state.displayState, action),
 });
 
 function StateProvider({ children }) {

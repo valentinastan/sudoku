@@ -87,7 +87,7 @@ const Menu = () => {
       {solution.length === 0 && <div>Congrats!</div>}
       <br />
       {Object.keys(gameMode).map(mode => (
-        <button onClick={() => setGameMode(gameMode[mode])}>
+        <button key={'gameMode_' + mode} onClick={() => setGameMode(gameMode[mode])}>
           {capitalizeFirstLetter(mode)}
         </button>
       ))}

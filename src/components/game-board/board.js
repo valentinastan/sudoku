@@ -6,12 +6,17 @@ const Sudoku = () => {
   const [store, dispatch] = useStore();
   let unfilledBoard = store?.solutionState?.unfilledBoard;
 
-
   return (
     <React.Fragment>
       <div className="sudoku">
         {unfilledBoard?.map((line, i) => (
-          <Row numbers={line} rowIndex={i} key={"row_" + i + Date.now()}></Row>
+          <div className={"row_" + i} key={"sudoku" + i + Date.now()}>
+            <Row
+              numbers={line}
+              rowIndex={i}
+              key={"row_" + i + Date.now()}
+            ></Row>
+          </div>
         ))}
       </div>
     </React.Fragment>

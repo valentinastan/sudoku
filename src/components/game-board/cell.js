@@ -15,9 +15,14 @@ const Cell = props => {
   const [store, dispatch] = useStore();
   let solution = store?.solutionState?.solution;
   let unfilledBoard = store?.solutionState?.unfilledBoard;
+  
   let disabledElements = store?.solutionState?.startBoard;
   let hint = store?.solutionState?.hint || null;
   let autocheck = store?.gameState?.autocheck;
+
+  let clicked = store?.displayState?.clickedCell;
+  const [markAsClicked, setMarkAsClicked] = useState(false);
+
   const { rowIndex, colIndex } = props;
 
   const checkIsHint = () => {
@@ -36,6 +41,7 @@ const Cell = props => {
       checkIsHint();
     }
     autocheck && checkMistake(unfilledBoard[props.rowIndex][props.colIndex]);
+    clicked && shouldClickedClass();
   }, [hint, autocheck]);
 
   // useEffect(() => {
@@ -131,17 +137,37 @@ const Cell = props => {
     }
   };
 
+  const onClickCell = (row, col, val) => {
+    dispatch({
+      type: "[DISPLAY] SELECT_CELL",
+      cell: { row, col, val },
+    });
+  };
+
+  const shouldClickedClass = () => {
+    if (
+      clicked?.row === rowIndex ||
+      clicked?.col === colIndex ||
+      (clicked.val !== 0 && clicked.val === props.value)
+    ) {
+      setMarkAsClicked(true);
+    }
+  };
+
   const hintClass = isHint ? "hint" : "";
   const mistakeClass = markAsMistake && autocheck ? "mistake" : "";
+  const clickedClass = markAsClicked ? "clicked" : "";
 
   return (
     <React.Fragment>
       <input
         value={inputValue !== 0 ? inputValue : ""}
-        key={"cell-" + Date.now()}
-        disabled={disabledElements[props.rowIndex][props.colIndex]}
+        key={"cell_" + Date.now()}
+        id={"cell_" + rowIndex + colIndex}
+        // disabled={disabledElements[rowIndex][colIndex]}
         onChange={event => onChangeInputValue(event.target.value)}
-        className={hintClass + " " + mistakeClass}
+        onClick={() => onClickCell(rowIndex, colIndex, inputValue)}
+        className={hintClass + " " + mistakeClass + " " + clickedClass}
       ></input>
     </React.Fragment>
   );

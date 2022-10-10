@@ -3,7 +3,7 @@
   width: 450px;
 }
 
-.table {
+/* .table {
   display: flex;
   flex-wrap: wrap;
 }
@@ -29,7 +29,7 @@ table:nth-child(-n + 3) tr:nth-child(-n + 1) {
 }
 
 /* left */
-table:nth-child(1) td:nth-child(-n + 1) {
+/* table:nth-child(1) td:nth-child(-n + 1) {
   border-left: 2px solid black;
 }
 
@@ -39,32 +39,33 @@ table:nth-child(4) td:nth-child(-n + 1) {
 
 table:nth-child(7) td:nth-child(-n + 1) {
   border-left: 2px solid black;
-}
+} */
 
 /* right */
-table:nth-child(3) td:nth-child(n + 3) {
+/* table:nth-child(3) td:nth-child(n + 3) {
   border-right: 2px solid black;
 }
 table:nth-child(6) td:nth-child(n + 3) {
   border-right: 2px solid black;
 }
 table:nth-child(9) td:nth-child(n + 3) {
-  border-right: 2px solid black;
-}
+  border-right: 2px solid black; */
+/* } */
 
-.table input {
+/* .table input {
   width: 35px;
   height: 35px;
   border: none;
   text-align: center;
-}
+} */
 
-.table input:hover {
+/* .table input:hover {
   background-color: rgb(192, 222, 241);
-}
+} */
 
 .sudoku {
-  width: 400px;
+  /* width: 400px; */
+  width: 363px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -73,18 +74,110 @@ table:nth-child(9) td:nth-child(n + 3) {
   height: 35px;
   font-weight: bold;
   font-size: larger;
+  border: 0.5px solid gray;
+  text-align: center;
+  outline: none;
+  /* padding: 3px 3px; */
 }
 
-.sudoku input:hover {
+.sudoku input:focus {
+  outline: none !important;
+}
+
+.sudoku input:hover,
+input:focus {
   background-color: rgb(192, 222, 241);
 }
 
+.sudoku input:focus-visible {
+  outline: none;
+}
+
 .hint {
-  /* background-color: rgb(247, 201, 201);
-  color: brown; */
   color: #f8b14c !important;
 }
 
 .mistake {
   color: brown;
+}
+
+.row_0,
+.row_1,
+.row_2,
+.row_3,
+.row_4,
+.row_5,
+.row_6,
+.row_7,
+.row_8 {
+  border-right: 2px solid black;
+  border-left: 2px solid black;
+}
+
+.row_0 {
+  border-top: 2px solid black;
+}
+
+.row_2,
+.row_5,
+.row_8 {
+  border-bottom: 2px solid black;
+}
+
+/* .sudoku #cell_02, #cell_12, #cell_22, #cell_32, #cell_42, #cell_52, #cell_62, #cell_72, #cell_82,
+#cell_02, #cell_12, #cell_22, #cell_32, #cell_42, #cell_52, #cell_62, #cell_72, #cell_82 {
+  border-right: 2px solid black;
+} */
+
+.sudoku #cell_02,
+#cell_12,
+#cell_22,
+#cell_32,
+#cell_42,
+#cell_52,
+#cell_62,
+#cell_72,
+#cell_82,
+#cell_05,
+#cell_15,
+#cell_25,
+#cell_35,
+#cell_45,
+#cell_55,
+#cell_65,
+#cell_75,
+#cell_85 {
+  border-right: 2px solid black;
+}
+/*
+.sudoku #cell_00, #cell_10, #cell_20, #cell_30, #cell_40, #cell_50, #cell_60, #cell_70, #cell_80 {
+  border-left: 2px solid black;
+}
+
+.sudoku #cell_00, #cell_01, #cell_02, #cell_03, #cell_04, #cell_05, #cell_62, #cell_72, #cell_82, 
+#cell_05, #cell_15, #cell_25, #cell_35, #cell_45, #cell_55, #cell_65, #cell_75, #cell_85,
+#cell_08, #cell_18, #cell_28, #cell_38, #cell_48, #cell_58, #cell_68, #cell_78, #cell_88 {
+  border-top: 2px solid black;
+} */
+
+.clicked {
+  background-color: rgb(192, 222, 241);
+}
+
+.options-area {
+  width: 165px;
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.options-area .option {
+  width: 55px;
+  height: 55px;
+  font-size: 17px;
+  border: none;
+  border: 2px solid white;
+}
+
+.options-area .option:hover {
+  background-color: rgb(192, 222, 241);
 }
