@@ -1,83 +1,81 @@
+.main-page {
+  display: inline-flex;
+  margin-top: 10%;
+}
+
 .game {
-  margin: 10% 0 0 10%;
+  margin: 0 5% 0 10%;
   width: 450px;
 }
 
-/* .table {
-  display: flex;
-  flex-wrap: wrap;
+.menu {
+  width: max-content;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  border: 1.1px solid black;
-}
-
-td {
-  border: 1px solid #dddddd;
-  height: 35px;
-  width: 35px;
-}
-
-table:nth-child(n + 7) tr:nth-child(n + 3) {
-  border-bottom: 2px solid black;
-}
-
-table:nth-child(-n + 3) tr:nth-child(-n + 1) {
-  border-top: 2px solid black;
-}
-
-/* left */
-/* table:nth-child(1) td:nth-child(-n + 1) {
-  border-left: 2px solid black;
-}
-
-table:nth-child(4) td:nth-child(-n + 1) {
-  border-left: 2px solid black;
-}
-
-table:nth-child(7) td:nth-child(-n + 1) {
-  border-left: 2px solid black;
-} */
-
-/* right */
-/* table:nth-child(3) td:nth-child(n + 3) {
-  border-right: 2px solid black;
-}
-table:nth-child(6) td:nth-child(n + 3) {
-  border-right: 2px solid black;
-}
-table:nth-child(9) td:nth-child(n + 3) {
-  border-right: 2px solid black; */
-/* } */
-
-/* .table input {
-  width: 35px;
-  height: 35px;
+.menu button {
+  padding: 2px 4px;
+  height: 30px;
+  width: 80px;
+  background-color: #eaeef3;
   border: none;
-  text-align: center;
-} */
+  margin: 2px;
+  border-radius: 2px;
+}
 
-/* .table input:hover {
-  background-color: rgb(192, 222, 241);
-} */
+.menu button:hover {
+  background-color: #469bec;
+}
+
+.menu h4 {
+  color: #469bec;
+  margin: 15px 0 10px;
+}
+
+.menu .game-mode button {
+  width: 63px;
+  border-radius: 50px;
+}
+
+.css-j204z7-MuiFormControlLabel-root .MuiFormControlLabel-label {
+  color: #334861;
+  font-size: small;
+}
+
+.menu .score {
+  position: absolute;
+  top: 8%;
+  left: 7.5%;
+  color: #469bec;
+  font-weight: bold;
+}
+
+.menu .win {
+  position: absolute;
+  top: 55%;
+  left: 0%;
+  color: mediumvioletred;
+  font-size: 80px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
 
 .sudoku {
-  /* width: 400px; */
-  width: 363px;
+  width: 369px;
   display: flex;
   flex-wrap: wrap;
+  background-color: white;
 }
 .sudoku input {
-  width: 35px;
-  height: 35px;
+  width: 41px;
+  height: 41px;
   font-weight: bold;
   font-size: larger;
   border: 0.5px solid gray;
   text-align: center;
   outline: none;
-  /* padding: 3px 3px; */
+  background-color: white;
+  color: #334861;
 }
 
 .sudoku input:focus {
@@ -89,16 +87,22 @@ input:focus {
   background-color: rgb(192, 222, 241);
 }
 
-.sudoku input:focus-visible {
+.sudoku:focus-visible {
   outline: none;
 }
 
 .hint {
   color: #f8b14c !important;
+  z-index: 99;
 }
 
 .mistake {
-  color: brown;
+  color: brown !important;
+  z-index: 90;
+}
+
+.userInput {
+  color: #469bec;
 }
 
 .row_0,
@@ -110,24 +114,19 @@ input:focus {
 .row_6,
 .row_7,
 .row_8 {
-  border-right: 2px solid black;
-  border-left: 2px solid black;
+  border-right: 2px solid #334861;
+  border-left: 2px solid #334861;
 }
 
 .row_0 {
-  border-top: 2px solid black;
+  border-top: 2px solid #334861;
 }
 
 .row_2,
 .row_5,
 .row_8 {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #334861;
 }
-
-/* .sudoku #cell_02, #cell_12, #cell_22, #cell_32, #cell_42, #cell_52, #cell_62, #cell_72, #cell_82,
-#cell_02, #cell_12, #cell_22, #cell_32, #cell_42, #cell_52, #cell_62, #cell_72, #cell_82 {
-  border-right: 2px solid black;
-} */
 
 .sudoku #cell_02,
 #cell_12,
@@ -147,35 +146,28 @@ input:focus {
 #cell_65,
 #cell_75,
 #cell_85 {
-  border-right: 2px solid black;
+  border-right: 2px solid #334861;
 }
-/*
-.sudoku #cell_00, #cell_10, #cell_20, #cell_30, #cell_40, #cell_50, #cell_60, #cell_70, #cell_80 {
-  border-left: 2px solid black;
-}
-
-.sudoku #cell_00, #cell_01, #cell_02, #cell_03, #cell_04, #cell_05, #cell_62, #cell_72, #cell_82, 
-#cell_05, #cell_15, #cell_25, #cell_35, #cell_45, #cell_55, #cell_65, #cell_75, #cell_85,
-#cell_08, #cell_18, #cell_28, #cell_38, #cell_48, #cell_58, #cell_68, #cell_78, #cell_88 {
-  border-top: 2px solid black;
-} */
 
 .clicked {
-  background-color: rgb(192, 222, 241);
+  background-color: rgb(192, 222, 241) !important;
 }
 
 .options-area {
-  width: 165px;
+  margin-top: 5px;
+  width: 250px;
   display: inline-flex;
   flex-wrap: wrap;
 }
 
 .options-area .option {
-  width: 55px;
-  height: 55px;
+  width: 75px;
+  height: 75px;
   font-size: 17px;
   border: none;
   border: 2px solid white;
+  color: #469bec;
+  background-color: #eaeef3;
 }
 
 .options-area .option:hover {

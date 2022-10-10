@@ -15,7 +15,7 @@ const Cell = props => {
   const [store, dispatch] = useStore();
   let solution = store?.solutionState?.solution;
   let unfilledBoard = store?.solutionState?.unfilledBoard;
-  
+
   let disabledElements = store?.solutionState?.startBoard;
   let hint = store?.solutionState?.hint || null;
   let autocheck = store?.gameState?.autocheck;
@@ -157,6 +157,7 @@ const Cell = props => {
   const hintClass = isHint ? "hint" : "";
   const mistakeClass = markAsMistake && autocheck ? "mistake" : "";
   const clickedClass = markAsClicked ? "clicked" : "";
+  const userInput = disabledElements[rowIndex][colIndex] ? '' : 'userInput'
 
   return (
     <React.Fragment>
@@ -164,10 +165,11 @@ const Cell = props => {
         value={inputValue !== 0 ? inputValue : ""}
         key={"cell_" + Date.now()}
         id={"cell_" + rowIndex + colIndex}
-        // disabled={disabledElements[rowIndex][colIndex]}
+        type="button"
+        disabled={disabledElements[rowIndex][colIndex]}
         onChange={event => onChangeInputValue(event.target.value)}
         onClick={() => onClickCell(rowIndex, colIndex, inputValue)}
-        className={hintClass + " " + mistakeClass + " " + clickedClass}
+        className={hintClass + " " + mistakeClass + " " + clickedClass + " " + userInput}
       ></input>
     </React.Fragment>
   );

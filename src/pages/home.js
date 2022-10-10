@@ -6,11 +6,15 @@ import Options from "../components/options";
 const Home = () => {
   return (
     <React.Fragment>
-      <div className="game">
-        <Sudoku></Sudoku>
+      <div className="main-page">
+        <div className="game">
+          <Sudoku></Sudoku>
+        </div>
+        <div>
+          <Menu></Menu>
+          <Options></Options>
+        </div>
       </div>
-      <Menu></Menu>
-      <Options></Options>
     </React.Fragment>
   );
 };

@@ -69,34 +69,40 @@ const Menu = () => {
 
   return (
     <React.Fragment>
-      <button onClick={() => reset(mode)}>Reset</button>
-      <button onClick={() => setShowScore(!showScore)}>Show score</button>
-      {showScore && <div>Score: {score}</div>}
-      <button
-        onClick={showHint}
-        disabled={solution.length === 0 ? true : false}
-      >
-        Hint
-      </button>
-      <button
-        onClick={undoMove}
-        disabled={lastMove.length === 0}
-      >
-        Undo
-      </button>
-      {solution.length === 0 && <div>Congrats!</div>}
-      <br />
-      {Object.keys(gameMode).map(mode => (
-        <button key={'gameMode_' + mode} onClick={() => setGameMode(gameMode[mode])}>
-          {capitalizeFirstLetter(mode)}
-        </button>
-      ))}
+      <div className="menu">
       <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={autoCheck} onChange={enableAutoCheck} />}
-          label="Auto-Check for Mistakes"
-        />
-      </FormGroup>
+          <FormControlLabel className="autocheck-label"
+            control={<Switch checked={autoCheck} onChange={enableAutoCheck} />}
+            label="Auto-Check for Mistakes"
+          />
+        </FormGroup>
+        <button onClick={() => reset(mode)}>Reset</button>
+        <button onClick={() => setShowScore(!showScore)}>Show score</button>
+        {showScore && <div className="score">Score: {score}</div>}
+        <button
+          onClick={showHint}
+          disabled={solution.length === 0 ? true : false}
+        >
+          Hint
+        </button>
+        <button onClick={undoMove} disabled={lastMove.length === 0}>
+          Undo
+        </button>
+        {solution.length === 0 && <div className="win">Congrats!</div>}
+        <br />
+        <h4>Game Mode</h4>
+        <div className="game-mode">
+          {Object.keys(gameMode).map(mode => (
+            <button
+              key={"gameMode_" + mode}
+              onClick={() => setGameMode(gameMode[mode])}
+            >
+              {capitalizeFirstLetter(mode)}
+            </button>
+          ))}
+        </div>
+
+      </div>
     </React.Fragment>
   );
 };
