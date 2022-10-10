@@ -10,8 +10,16 @@ export default function solutionReducer(state, action) {
         filledBoard: action.startingBoard[2],
       };
       let solution = getSolution(newState.filledBoard);
+      let startBoard = JSON.parse(JSON.stringify(newState.unfilledBoard));
 
-      return { ...state, ...newState, solution, hint: null, lastMove: [], startBoard: newState.unfilledBoard};
+      return {
+        ...state,
+        ...newState,
+        solution,
+        hint: null,
+        lastMove: [],
+        startBoard,
+      };
     case "[BOARD] SET_HINT":
       let newUnfilledBoard = [...state.unfilledBoard];
       newUnfilledBoard[action.hint.rowIndex][action.hint.colIndex] =
@@ -49,11 +57,11 @@ export default function solutionReducer(state, action) {
           };
         }
       }
-
+    
       return {
         ...state,
         unfilledBoard: [...unfilled],
-        lastMove: [...state.lastMove, {...action.cell}] ,
+        lastMove: [...state.lastMove, { ...action.cell }],
         emptyCells: emptyCell
           ? [...state.emptyCells, emptyCell]
           : [...state.emptyCells],
@@ -73,15 +81,14 @@ export default function solutionReducer(state, action) {
       return { ...state, emptyCells: res };
     case "[BOARD] UNDO_MOVE":
       let undoUnfilledBoard = [...state.unfilledBoard];
-      let lastMove = state.lastMove[state.lastMove.length -1];
+      let lastMove = state.lastMove[state.lastMove.length - 1];
       console.log(lastMove);
       undoUnfilledBoard[lastMove.rowIndex][lastMove.colIndex] = 0;
 
       //was a correct move?
       let undoEmptyCells = [...state.emptyCells];
       if (
-        state.filledBoard[lastMove.rowIndex][lastMove.colIndex] ===
-        lastMove.val
+        state.filledBoard[lastMove.rowIndex][lastMove.colIndex] === lastMove.val
       ) {
         undoEmptyCells.push({
           rowIndex: lastMove.rowIndex,
@@ -95,7 +102,7 @@ export default function solutionReducer(state, action) {
         lastMove: state.lastMove.slice(0, -1),
         unfilledBoard: undoUnfilledBoard,
         emptyCells: undoEmptyCells,
-        hint: null
+        hint: null,
       };
     default:
       return { ...state };

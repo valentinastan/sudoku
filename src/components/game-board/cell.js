@@ -15,7 +15,7 @@ const Cell = props => {
   const [store, dispatch] = useStore();
   let solution = store?.solutionState?.solution;
   let unfilledBoard = store?.solutionState?.unfilledBoard;
-  // let disabledElements = store?.solutionState?.startBoard;
+  let disabledElements = store?.solutionState?.startBoard;
   let hint = store?.solutionState?.hint || null;
   let autocheck = store?.gameState?.autocheck;
   const { rowIndex, colIndex } = props;
@@ -139,7 +139,7 @@ const Cell = props => {
       <input
         value={inputValue !== 0 ? inputValue : ""}
         key={"cell-" + Date.now()}
-        // disabled={disabledElements[props.rowIndex].some()}
+        disabled={disabledElements[props.rowIndex][props.colIndex]}
         onChange={event => onChangeInputValue(event.target.value)}
         className={hintClass + " " + mistakeClass}
       ></input>

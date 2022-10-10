@@ -11,7 +11,6 @@ const Row = props => {
     <React.Fragment>
       <div className="sudoku">
         {numbers?.map((num, i) => {
-          console.log('num', num, 'col:', i, 'row:', props.rowIndex)
           return (
           <Cell value={num} colIndex={i} rowIndex={props.rowIndex} key={"cell_" + num + '_' + i + props.rowIndex + Date.now()}></Cell>
           // <input value={num} key={"cell_" + num + '_' + i} onChange={(event) => onCh(event)}></input>
