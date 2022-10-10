@@ -6,10 +6,11 @@ const initialState = {
   solutionState: {
     emptyCells: [],
     unfilledBoard: [],
+    startBoard: [],
     filledBoard: [],
     hint: null,
     solution: null,
-    lastMove: null,
+    lastMove: [],
   },
   gameState: {
     score: 0,

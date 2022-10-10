@@ -11,7 +11,7 @@ export default function solutionReducer(state, action) {
       };
       let solution = getSolution(newState.filledBoard);
 
-      return { ...state, ...newState, solution, hint: null, lastMove: null };
+      return { ...state, ...newState, solution, hint: null, lastMove: [], startBoard: newState.unfilledBoard};
     case "[BOARD] SET_HINT":
       let newUnfilledBoard = [...state.unfilledBoard];
       newUnfilledBoard[action.hint.rowIndex][action.hint.colIndex] =
@@ -20,7 +20,7 @@ export default function solutionReducer(state, action) {
         ...state,
         hint: action.hint,
         emptyCells: [...action.hints],
-        lastMove: action.hint,
+        lastMove: [...state.lastMove, action.hint],
         unfilledBoard: newUnfilledBoard,
       };
     case "[BOARD] SAVE_USER_INPUT":
@@ -53,7 +53,7 @@ export default function solutionReducer(state, action) {
       return {
         ...state,
         unfilledBoard: [...unfilled],
-        lastMove: { ...action.cell },
+        lastMove: [...state.lastMove, {...action.cell}] ,
         emptyCells: emptyCell
           ? [...state.emptyCells, emptyCell]
           : [...state.emptyCells],
@@ -71,6 +71,32 @@ export default function solutionReducer(state, action) {
       });
 
       return { ...state, emptyCells: res };
+    case "[BOARD] UNDO_MOVE":
+      let undoUnfilledBoard = [...state.unfilledBoard];
+      let lastMove = state.lastMove[state.lastMove.length -1];
+      console.log(lastMove);
+      undoUnfilledBoard[lastMove.rowIndex][lastMove.colIndex] = 0;
+
+      //was a correct move?
+      let undoEmptyCells = [...state.emptyCells];
+      if (
+        state.filledBoard[lastMove.rowIndex][lastMove.colIndex] ===
+        lastMove.val
+      ) {
+        undoEmptyCells.push({
+          rowIndex: lastMove.rowIndex,
+          colIndex: lastMove.colIndex,
+          val: lastMove.val,
+        });
+      }
+
+      return {
+        ...state,
+        lastMove: state.lastMove.slice(0, -1),
+        unfilledBoard: undoUnfilledBoard,
+        emptyCells: undoEmptyCells,
+        hint: null
+      };
     default:
       return { ...state };
   }
