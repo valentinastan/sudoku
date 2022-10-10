@@ -11,7 +11,7 @@ const Sudoku = () => {
     <React.Fragment>
       <div className="sudoku">
         {unfilledBoard?.map((line, i) => (
-          <Row numbers={line} rowIndex={i} key={"row_" + i}></Row>
+          <Row numbers={line} rowIndex={i} key={"row_" + i + Date.now()}></Row>
         ))}
       </div>
     </React.Fragment>

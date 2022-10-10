@@ -34,6 +34,7 @@ const Menu = props => {
   const showHint = () => {
     let hints = [...solution];
     let hint = hints.pop();
+    console.log('hint', hint)
     dispatch({
       type: "[BOARD] SET_HINT",
       hint,

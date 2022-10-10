@@ -13,7 +13,16 @@ export default function solutionReducer(state, action) {
 
       return { ...state, ...newState, solution, hint: null, lastMove: null };
     case "[BOARD] SET_HINT":
-      return { ...state, hint: action.hint, emptyCells: [...action.hints], lastMove: action.hint };
+      let newUnfilledBoard = [...state.unfilledBoard];
+      newUnfilledBoard[action.hint.rowIndex][action.hint.colIndex] =
+        action.hint.val;
+      return {
+        ...state,
+        hint: action.hint,
+        emptyCells: [...action.hints],
+        lastMove: action.hint,
+        unfilledBoard: newUnfilledBoard,
+      };
     case "[BOARD] SAVE_USER_INPUT":
       let emptyCell;
       let unfilled = [...state.unfilledBoard];
