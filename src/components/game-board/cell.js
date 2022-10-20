@@ -85,49 +85,59 @@ const Cell = props => {
   // };
 
   const onChangeInputValue = newValue => {
-    console.log("newValue", newValue);
-    setInputValue(newValue);
-    console.log("state", inputValue, props);
-
-    // let solution = getSolution();
-    dispatch({
-      type: "[BOARD] SAVE_USER_INPUT",
-      cell: {
-        rowIndex: props.rowIndex,
-        colIndex: props.colIndex,
-        val: parseInt(newValue || 0),
-      },
-    });
-
-    console.log(
-      "solution, rowIndex, colIndex, sol",
-      solution[rowIndex][colIndex],
-      rowIndex,
-      colIndex,
-      solution
-    );
-
-    if (newValue === "" || undefined) {
-      // undoScore();
+    console.log("newValue", newValue, inputValue);
+    if (newValue === inputValue) {
+      console.log("REPEATED");
+      newValue = '';
+      setInputValue(newValue);
+      dispatch({
+        type: "[BOARD] SAVE_USER_INPUT",
+        cell: {
+          rowIndex: props.rowIndex,
+          colIndex: props.colIndex,
+          val: '',
+        },
+      });
     } else {
-      if (solution[rowIndex][colIndex]) {
-        if (solution[rowIndex][colIndex].toString() === newValue.toString()) {
-          incrementScore(true);
-          dispatch({
-            type: "[BOARD] UPDATE_EMPTY_CELLS",
-            cell: {
-              rowIndex: props.rowIndex,
-              colIndex: props.colIndex,
-              val: parseInt(newValue),
-            },
-          });
-        } else if (
-          solution[rowIndex][colIndex].toString() !== newValue.toString()
-        ) {
-          incrementScore(false);
-          if (autocheck === true) {
-            setMarkAsMistake(true);
-          }
+      setInputValue(newValue);
+      console.log("state", inputValue, props);
+
+      // let solution = getSolution();
+      dispatch({
+        type: "[BOARD] SAVE_USER_INPUT",
+        cell: {
+          rowIndex: props.rowIndex,
+          colIndex: props.colIndex,
+          val: parseInt(newValue || 0),
+        },
+      });
+
+      console.log(
+        "solution, rowIndex, colIndex, sol",
+        solution[rowIndex][colIndex],
+        rowIndex,
+        colIndex,
+        solution
+      );
+    }
+
+    if (solution[rowIndex][colIndex]) {
+      if (solution[rowIndex][colIndex].toString() === newValue.toString()) {
+        incrementScore(true);
+        dispatch({
+          type: "[BOARD] UPDATE_EMPTY_CELLS",
+          cell: {
+            rowIndex: props.rowIndex,
+            colIndex: props.colIndex,
+            val: parseInt(newValue),
+          },
+        });
+      } else if (
+        solution[rowIndex][colIndex].toString() !== newValue.toString()
+      ) {
+        incrementScore(false);
+        if (autocheck === true) {
+          setMarkAsMistake(true);
         }
       }
     }
@@ -191,6 +201,7 @@ const Cell = props => {
 
   return (
     <React.Fragment>
+      {console.log('input sl', inputValue)}
       <input
         value={inputValue !== 0 ? inputValue : ""}
         key={"cell_" + Date.now()}
