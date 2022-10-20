@@ -1,4 +1,5 @@
 .main-page {
+  position: relative;
   display: inline-flex;
   margin-top: 10%;
 }
@@ -43,8 +44,8 @@
 
 .menu .score {
   position: absolute;
-  top: 8%;
-  left: 7.5%;
+  top: -6%;
+  left: 10%;
   color: #469bec;
   font-weight: bold;
 }

@@ -5,6 +5,7 @@ import { newStartingBoard } from "../helpers/sudoku-algorithm";
 import { useStore } from "../state-management/stores/store";
 import { gameMode } from "../helpers/constants";
 import { capitalizeFirstLetter } from "../helpers/formatting";
+import getSolution from "../helpers/game-state";
 
 const Menu = () => {
   const [store, dispatch] = useStore();
@@ -17,6 +18,8 @@ const Menu = () => {
   let score = store?.gameState?.score || 0;
   let lastMove = store?.solutionState?.lastMove || null;
   let solution = store?.solutionState?.emptyCells;
+  let filledBoard = store?.solutionState?.filledBoard;
+  // let incrementedScore = store?.gameState?.incrementedScore;
   console.log("in menu", store);
 
   useEffect(() => {
@@ -65,13 +68,43 @@ const Menu = () => {
     dispatch({
       type: "[BOARD] UNDO_MOVE",
     });
+    undoScore();
+  };
+
+  const undoScore = () => {
+    console.log("!!! undo", store);
+    let move = lastMove[lastMove.length - 1];
+    if (lastMove) {
+      let solutionObject = getSolution(filledBoard);
+      if (move.val === solutionObject[move.rowIndex][move.colIndex]) {
+        console.warn("valoarea era buna");
+        dispatch({
+          type: "[GAME] DECREMENT_SCORE",
+        });
+      } else {
+        console.warn("valoarea era naspa");
+        dispatch({
+          type: "[GAME] INCREMENT_SCORE",
+        });
+      }
+    }
+    // if (incrementedScore === true) {
+    //   dispatch({
+    //     type: "[GAME] DECREMENT_SCORE",
+    //   });
+    // } else if (incrementedScore === false) {
+    //   dispatch({
+    //     type: "[GAME] INCREMENT_SCORE",
+    //   });
+    // }
   };
 
   return (
     <React.Fragment>
       <div className="menu">
-      <FormGroup>
-          <FormControlLabel className="autocheck-label"
+        <FormGroup>
+          <FormControlLabel
+            className="autocheck-label"
             control={<Switch checked={autoCheck} onChange={enableAutoCheck} />}
             label="Auto-Check for Mistakes"
           />
@@ -101,7 +134,6 @@ const Menu = () => {
             </button>
           ))}
         </div>
-
       </div>
     </React.Fragment>
   );

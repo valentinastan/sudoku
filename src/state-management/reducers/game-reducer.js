@@ -12,6 +12,8 @@ export default function gameReducer(state, action) {
       return { ...state, autocheck: false };
     case "[GAME] RESET":
       return { ...state, score: 0, autocheck: false, time: "", level: "" };
+    // case "[GAME] SAVE_OPTION":
+    //   return { ...state, selectedOption: { ...action.cell } };
     default:
       return { ...state };
   }

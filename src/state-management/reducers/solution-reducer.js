@@ -65,6 +65,7 @@ export default function solutionReducer(state, action) {
         emptyCells: emptyCell
           ? [...state.emptyCells, emptyCell]
           : [...state.emptyCells],
+        selectedOption: null,
       };
     case "[BOARD] UPDATE_EMPTY_CELLS":
       let cell = action.cell;
@@ -104,6 +105,8 @@ export default function solutionReducer(state, action) {
         emptyCells: undoEmptyCells,
         hint: null,
       };
+      case "[BOARD] SAVE_OPTION":
+        return { ...state, selectedOption: { ...action.cell } };
     default:
       return { ...state };
   }

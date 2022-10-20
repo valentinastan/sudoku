@@ -12,12 +12,15 @@ const initialState = {
     hint: null,
     solution: null,
     lastMove: [],
+    selectedOption: null,
   },
   gameState: {
     score: 0,
+    // incrementedScore: null,
     autocheck: false,
     time: "",
     level: "",
+    // selectedOption: null,
   },
   displayState: {
     clickedCell: null

@@ -10,7 +10,7 @@ const Cell = props => {
 
   const [inputValue, setInputValue] = useState(props.value);
   const [isHint, setIsHint] = useState(false);
-  const [incrementedScore, setIncrementedScore] = useState(undefined);
+  // const [incrementedScore, setIncrementedScore] = useState(undefined);
   const [markAsMistake, setMarkAsMistake] = useState(false);
   const [store, dispatch] = useStore();
   let solution = store?.solutionState?.solution;
@@ -19,9 +19,12 @@ const Cell = props => {
   let disabledElements = store?.solutionState?.startBoard;
   let hint = store?.solutionState?.hint || null;
   let autocheck = store?.gameState?.autocheck;
+  let newInputValue = store?.solutionState?.selectedOption;
 
   let clicked = store?.displayState?.clickedCell;
   const [markAsClicked, setMarkAsClicked] = useState(false);
+
+  let lastMove = store?.solutionState?.lastMove || null;
 
   const { rowIndex, colIndex } = props;
 
@@ -42,7 +45,32 @@ const Cell = props => {
     }
     autocheck && checkMistake(unfilledBoard[props.rowIndex][props.colIndex]);
     clicked && shouldClickedClass();
+    newInputValue &&
+      newInputValue.rowIndex === props.rowIndex &&
+      newInputValue.colIndex === props.colIndex &&
+      onChangeInputValue(newInputValue.val);
   }, [hint, autocheck]);
+
+  useEffect(() => {
+    if (lastMove) {
+      let previousValue = lastMove.find(
+        move => move.rowIndex === rowIndex && move.colIndex === colIndex
+      );
+      if (previousValue && props.value === 0) {
+        setInputValue(previousValue.val);
+      }
+    }
+  }, [lastMove]);
+
+  // useEffect(() => {
+  //   // console.log(newInputValue, props)
+  //   if (
+  //     newInputValue?.rowIndex === rowIndex &&
+  //     newInputValue?.colIndex === colIndex
+  //   ) {
+  //     onChangeInputValue(newInputValue.val);
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   setInputValue(props.value)
@@ -80,7 +108,7 @@ const Cell = props => {
     );
 
     if (newValue === "" || undefined) {
-      undoScore();
+      // undoScore();
     } else {
       if (solution[rowIndex][colIndex]) {
         if (solution[rowIndex][colIndex].toString() === newValue.toString()) {
@@ -111,29 +139,31 @@ const Cell = props => {
     }
   };
 
-  const undoScore = () => {
-    if (incrementedScore === true) {
-      dispatch({
-        type: "[GAME] DECREMENT_SCORE",
-      });
-    } else if (incrementedScore === false) {
-      dispatch({
-        type: "[GAME] INCREMENT_SCORE",
-      });
-    }
-  };
+  // const undoScore = () => {
+  //   console.log('undo', incrementedScore)
+  //   if (incrementedScore === true) {
+  //     dispatch({
+  //       type: "[GAME] DECREMENT_SCORE",
+  //     });
+  //   } else if (incrementedScore === false) {
+  //     dispatch({
+  //       type: "[GAME] INCREMENT_SCORE",
+  //     });
+  //   }
+  // };
 
   const incrementScore = isIncrementing => {
+    console.log("in increment");
     if (isIncrementing) {
       dispatch({
         type: "[GAME] INCREMENT_SCORE",
       });
-      setIncrementedScore(true);
+      // setIncrementedScore(true);
     } else {
       dispatch({
         type: "[GAME] DECREMENT_SCORE",
       });
-      setIncrementedScore(false);
+      // setIncrementedScore(false);
     }
   };
 
@@ -157,7 +187,7 @@ const Cell = props => {
   const hintClass = isHint ? "hint" : "";
   const mistakeClass = markAsMistake && autocheck ? "mistake" : "";
   const clickedClass = markAsClicked ? "clicked" : "";
-  const userInput = disabledElements[rowIndex][colIndex] ? '' : 'userInput'
+  const userInput = disabledElements[rowIndex][colIndex] ? "" : "userInput";
 
   return (
     <React.Fragment>
@@ -169,7 +199,9 @@ const Cell = props => {
         disabled={disabledElements[rowIndex][colIndex]}
         onChange={event => onChangeInputValue(event.target.value)}
         onClick={() => onClickCell(rowIndex, colIndex, inputValue)}
-        className={hintClass + " " + mistakeClass + " " + clickedClass + " " + userInput}
+        className={
+          hintClass + " " + mistakeClass + " " + clickedClass + " " + userInput
+        }
       ></input>
     </React.Fragment>
   );

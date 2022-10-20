@@ -13,14 +13,24 @@ const Options = () => {
   const onSelect = option => {
     console.log("selected", option);
 
-    dispatch({
-      type: "[BOARD] SAVE_USER_INPUT",
-      cell: {
-        rowIndex: clicked.row,
-        colIndex: clicked.col,
-        val: parseInt(option || 0),
-      },
-    });
+    // dispatch({
+    //   type: "[BOARD] SAVE_USER_INPUT",
+    //   cell: {
+    //     rowIndex: clicked.row,
+    //     colIndex: clicked.col,
+    //     val: parseInt(option || 0),
+    //   },
+    // });
+
+    clicked &&
+      dispatch({
+        type: "[BOARD] SAVE_OPTION",
+        cell: {
+          rowIndex: clicked.row,
+          colIndex: clicked.col,
+          val: parseInt(option || 0),
+        },
+      });
   };
 
   return (
